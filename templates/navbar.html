@@ -1,0 +1,96 @@
+
+{% load static %}
+<nav class="navbar navbar-default no-margin" style="background-color: white; position: fixed; width: 100%; z-index: 1000;">
+   <div class="navbar-header fixed-brand">
+        <img src="{% static 'iset.jpg' %}" alt="">  
+
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+        </button>
+        <div class="logo">
+
+            <a class="navbar-brand" href="">Student Help</a>
+
+        </div>
+</div>
+
+        <!-- base.html -->
+        <form class="navbar-form navbar-left compact-search-form" method="GET" action="{% url 'search' %}">
+            <div class="form-group">
+                <input type="text" class="form-control" name="q" placeholder="Rechercher...">
+            </div>
+        </form>
+
+      
+        <ul class="nav navbar-nav navbar-right">
+            
+            {% if user.is_authenticated %}
+            <li >
+                <a class="nav-link" href="#"style="padding: 18px 10px;">Hello,{{user}}</a>
+            </li>
+
+            <li class="nav-item active">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link custom-link" style="padding: 18px 10px;">
+                        <i class="fas fa-sign-out-alt"></i> <!-- Icône de déconnexion de Font Awesome -->
+                        Déconnexion
+                    </button>
+                </form>
+            </li>
+            
+
+            {% else %}
+            <li >
+                <a class="nav-link custom-link" href="{% url 'login' %}">
+                    <i class="fas fa-sign-in-alt"></i> <!-- Icône de connexion de Font Awesome -->
+                    Connexion
+                </a>
+            </li>
+            <li >
+                <a class="nav-link custom-link" href="{% url 'register' %}">
+                    <i class="fas fa-user-plus"></i> <!-- Icône d'inscription de Font Awesome -->
+                    Inscription
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+
+<style>
+.custom-link {
+    border: none;
+    background: none;
+    padding: 0;
+    color: #333; /* Couleur du texte */
+    font-weight: bold; /* Style du texte */
+    text-decoration: none; /* Supprimer le soulignement */
+    display: flex; /* Utiliser flexbox pour aligner l'icône et le texte */
+    align-items: center; /* Aligner verticalement l'icône et le texte */
+}
+.custom-link:hover {
+    color: #007bff; /* Couleur du texte au survol */
+}
+
+
+
+    .navbar-default .navbar-brand {
+        color: #0a68ba; /* Couleur du texte */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Ombre portée */
+        font-weight: bold; /* Gras */
+        font-size: 24px; /* Taille de la police */
+        font-family: 'Arial', sans-serif; /* Police de caractères */
+        margin-left: 55px;
+        margin-top: -49px;
+        margin-bottom: 3px;
+    }
+    img {
+        width: 55px;
+        margin-left: 10px;
+        margin-button: 5px;
+        /* Ajustement de la marge haute */
+  }
+</style>
+

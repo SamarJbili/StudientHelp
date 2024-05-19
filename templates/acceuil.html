@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% block content %} 
+<div class="list">
+<div class="card">
+    <!-- Entrée input -->
+    <input type="text" placeholder="Cliquez pour ouvrir le formulaire" onclick="window.location.href='{% url 'create-logement' %}'">
+    
+    <!-- Boutons -->
+    <div class="buttons">
+        <a class="button" href="{% url 'create-logement' %}">
+            <span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x"></i></span>
+            Logement
+        </a>
+           
+        <a class="button" href="{% url 'create-stage' %}">
+            <span class="fa-stack fa-lg pull-left"><i class="fa fa-briefcase fa-stack-1x"></i></span>
+            Stage
+        </a>
+        
+        <div class="dropdown">
+            <a class="button" href="#"> <!-- lien non fonctionnel, juste pour le style -->
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                Evenement
+            </a>
+            <div class="dropdown-content">
+                <a  class="button" href="{% url 'create-evenementCult' %}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                    Culturel</a>
+                <a  class="button" href="{% url 'create-evenementSc' %}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                    Scientifique</a>
+            </div>
+        </div>
+        
+        <a class="button" href="{% url 'create-transport' %}">
+            <span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>
+            Transport
+        </a>
+    </div>
+</div>
+<div class="card5" style="width: 18rem;">
+    <div class="card-body">
+        {% if user.is_authenticated %}
+       
+      <h4> <a class="nav-link" href="#">Hello,{{user}}</a></h4>
+      
+        {% endif %}
+      <a href="{% url 'mespost-view' %}" class="button">Consulter Mes Postes</a>
+    </div>
+  </div>
+  {% for post in object_list %}
+  <div class="card2">
+      <p class="card-text">{{ post.author }}</p>
+      <h6 class="card-text">{{ post.Date }}</h6>
+      {% if post.Image %}
+          {{ post.image_preview|safe }}
+      {% else %}
+          <img src="media/anonyme1.png">                
+      {% endif %}
+      <div class="card-body">
+          <h5 class="card-title">Title: {{ post.Title }}</h5>
+      </div>
+      <button class="like-btn">J'aime</button>
+      <span class="like-count">{{ post.likes.count }}</span>
+      <!-- Ajouter ici le bouton commentaire et le nombre de commentaires -->
+      <a href="{% url 'add-comment' post.id %}" class="comment-btn">Commenter</a>
+      <!-- Nombre de commentaires -->
+      <span class="comment-count">{{ post.comments.count }}</span>
+      <!-- Afficher les commentaires -->
+      <div class="comments">
+          {% for comment in post.comment_set.all %}
+              <div class="comment">
+                  <p>{{ comment.content }}</p>
+                  <p>Posté par {{ comment.author }} le {{ comment.created_at }}</p>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+{% endfor %}
+
+
+
+{% for post in transport_posts %}
+<div class="card2" >
+    <div class="position-relative">
+
+    </div>
+    <p class="card-text">Poster par {{ post.author }}</p>
+    <h5>date</h5>
+    {% if post.Image %}
+        {{ post.image_preview|safe }}
+    {% else %}
+    <img src="media/anonyme1.png">                
+    {% endif %}
+
+    <div class="card-body">
+        <h5 class="card-title">Titre : {{ post.Title }}</h5>
+        <p class="card-text">Départ : {{ post.Départ }}</p>
+        <p class="card-text">Destination : {{ post.Destination }}</p>
+        <p class="card-text">Heure de départ : {{ post.Heure_dep }}</p>
+        <p class="card-text">Nombre de sièges : {{ post.Nbre_sièges }}</p>
+        <p class="card-text">Informations de contact : {{ post.Contactinfo }}</p>
+    </div>
+    <button class="like-btn">J'aime</button>
+        <span class="like-count">{{ post.likes.count }}</span>
+        <!-- Ajouter ici le bouton commentaire et le nombre de commentaires -->
+        <button class="comment-btn">Commenter</button>
+        <span class="comment-count">{{ post.comments.count }}</span>
+</div>
+  {% endfor %}
+
+
+
+
+
+
+</div>
+
+<style>
+    
+    .card5 {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px;
+        width: calc(65% - 40px);
+        margin-bottom: 20px; /* Réduire l'espacement entre les cartes */
+        position: relative;
+        left: 85%;
+        bottom: 190px;
+    }
+        .dropdown {
+         position: relative;
+         display: inline-block;
+     }
+     
+     .dropdown-content {
+         display: none;
+         position: absolute;
+         background-color: #f9f9f9;
+         min-width: 160px;
+         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+         z-index: 1;
+     }
+     
+     .dropdown-content a {
+         color: black;
+         padding: 12px 16px;
+         text-decoration: none;
+         display: block;
+     }
+     
+     .dropdown-content a:hover {
+         background-color: #f1f1f1;
+     }
+     
+     .dropdown:hover .dropdown-content {
+         display: block;
+     }
+     
+            .card2 {
+             background-color: white; /* Fond blanc */
+             width: calc(65% - 40px); /* Largeur de 300 pixels */
+             border: 1px solid #ccc; /* Bordure grise */
+             border-radius: 10px; /* Coins arrondis */
+             padding: 20px; /* Espacement interne */
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre */
+             margin-bottom: 40px;
+             position: relative;
+             left: 14%;
+             bottom: 10px;
+             }
+         
+             .card2 img {
+    width: 60%; /* Faire en sorte que l'image occupe 60% de la largeur de la carte */
+    height: auto; /* Ajuster automatiquement la hauteur pour préserver les proportions */
+    margin: 0 auto; /* Centrer horizontalement l'image dans la carte */
+    display: block; /* Assurer que l'image est affichée comme un bloc pour appliquer les marges */
+    margin-bottom: 10px; /* Ajouter un espacement en bas de l'image */
+}
+
+     
+         
+         input[type="text"] {
+             width: 100%;
+             background-color: #f0f0f0;
+     
+             padding: 10px;
+             border: 1px solid #ccc;
+             border-radius: 10px;
+             margin-bottom: 20px;
+             box-sizing: border-box; /* Pour inclure le padding dans la largeur */
+         }
+         .button {
+             background-color: white; /* Bleu */
+             padding: 10px 20px;
+             text-align: left; /* Aligner le texte à gauche */
+             text-decoration: none;
+             display: inline-block;
+             border-radius: 10px;
+             margin-right: 10px;
+             margin-bottom: 10px;
+         }
+         
+         /* Style pour les boutons lorsqu'ils sont survolés */
+         .button:hover {
+             background-color: #f0f0f0;
+         }
+         
+         .list {
+             overflow: hidden;
+             
+         }
+         
+       .search-bar {
+             margin-top: 50px; /* Espacement par rapport à la barre de navigation */
+             margin-bottom: 20px; /* Espacement par rapport au contenu suivant */
+         }
+             
+         .card {
+         background-color: white;
+         border-radius: 10px;
+         padding: 20px;
+         margin: 20px;
+         width: calc(65% - 40px);
+         margin-bottom: 20px; /* Réduire l'espacement entre les cartes */
+         position: relative;
+         left: 13%;
+         margin-top: 60px;
+     }
+     
+     
+     
+     </style>
+
+    
+{% endblock %}

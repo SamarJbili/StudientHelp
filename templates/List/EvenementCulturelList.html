@@ -1,0 +1,282 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="list">
+    <div class="card">
+        <!-- Entrée input -->
+        <input type="text" placeholder="Cliquez pour ouvrir le formulaire" onclick="window.location.href='{% url 'create-logement' %}'">
+        
+        <!-- Boutons -->
+        <div class="buttons">
+            <a class="button" href="{% url 'create-logement' %}">
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-home fa-stack-1x"></i></span>
+                Logement
+            </a>
+               
+            <a class="button" href="{% url 'create-stage' %}">
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-briefcase fa-stack-1x"></i></span>
+                Stage
+            </a>
+            
+            <div class="dropdown">
+                <a class="button" href="#"> <!-- lien non fonctionnel, juste pour le style -->
+                    <span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                    Evenement
+                </a>
+                <div class="dropdown-content">
+                    <a  class="button" href="{% url 'create-evenementCult' %}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                        Culturel</a>
+                    <a  class="button" href="{% url 'create-evenementSc' %}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-calendar fa-stack-1x"></i></span>
+                        Scientifique</a>
+                </div>
+            </div>
+            
+            <a class="button" href="{% url 'create-transport' %}">
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-truck fa-stack-1x "></i></span>
+                Transport
+            </a>
+        </div>
+    </div>
+    
+    <div class="card5" style="width: 18rem;">
+        <div class="card-body">
+            {% if user.is_authenticated %}
+           
+          
+            {% endif %}
+          <a href="{% url 'mespost-view' %}" class="button">Consulter Mes Postes</a>
+        </div>
+      </div>
+
+  <div class="container2">
+      <ul class="post-list">
+          {% for post in object_list %}
+         
+                
+            <div class="card2" >
+              
+                
+                <h4><p class="card-text">Poster par {{ post.author }}</p></h4>
+                {% if post.Image %}
+                {{ post.image_preview|safe }}
+                {% else %}
+                    <img src="media/anonyme1.png">                
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">Title: {{ post.Title }}</h5>
+                    <p class="card-text">Type: {{ post.Type }}</p>
+                    <p class="card-text">Date de création: {{ post.Date }}</p>
+                    <p class="card-text">Description: {{ post.Description }}</p>
+                    <p class="card-text">Club: {{ post.Club }}</p>
+
+                </div>
+                
+              </div>
+           
+          {% endfor %}
+      </ul>
+  </div>
+</div>
+<style>
+
+    /* Style pour la carte */
+.card2 {
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Changer la direction de flex en colonne */
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-footer {
+    display: flex;
+    align-items: center;
+}
+
+/* Style pour le bouton "J'aime" */
+.like-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; /* Espacement entre le bouton "J'aime" et le formulaire de commentaire */
+}
+
+.like-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Style pour le formulaire de commentaire */
+.comment-form {
+    display: flex;
+    align-items: center;
+}
+
+.comment-form textarea {
+    flex-grow: 1; /* Utilisation de tout l'espace disponible */
+    padding: 10px;
+    margin-right: 10px; /* Espacement entre le champ de texte et le bouton "Ajouter un commentaire" */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comment-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+    /* Styles pour la carte */
+.card2 {
+    width: 100%; /* Définir la largeur de la carte */
+    padding: 20px; /* Ajouter un peu d'espacement intérieur */
+    margin-bottom: 20px; /* Ajouter un espacement en bas */
+    border: 1px solid #ccc; /* Ajouter une bordure */
+    border-radius: 5px; /* Ajouter une bordure arrondie */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+}
+
+/* Styles pour l'image */
+.card2 img {
+    width: 100%; /* Faire en sorte que l'image remplisse la largeur de la carte */
+    height: auto; /* Ajuster automatiquement la hauteur pour préserver les proportions */
+    margin-bottom: 10px; /* Ajouter un espacement en bas de l'image */
+}
+
+
+.card5 {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    width: calc(65% - 40px);
+    margin-bottom: 20px; /* Réduire l'espacement entre les cartes */
+    position: relative;
+    left: 85%;
+    bottom: 190px;
+}
+    .dropdown {
+     position: relative;
+     display: inline-block;
+ }
+ 
+ .dropdown-content {
+     display: none;
+     position: absolute;
+     background-color: #f9f9f9;
+     min-width: 160px;
+     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+     z-index: 1;
+ }
+ 
+ .dropdown-content a {
+     color: black;
+     padding: 12px 16px;
+     text-decoration: none;
+     display: block;
+ }
+ 
+ .dropdown-content a:hover {
+     background-color: #f1f1f1;
+ }
+ 
+ .dropdown:hover .dropdown-content {
+     display: block;
+ }
+ 
+        .card2 {
+         background-color: white; /* Fond blanc */
+         width: calc(65% - 40px); /* Largeur de 300 pixels */
+         border: 1px solid #ccc; /* Bordure grise */
+         border-radius: 10px; /* Coins arrondis */
+         padding: 20px; /* Espacement interne */
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre */
+         margin-bottom: 40px;
+         position: relative;
+         left: 13%;
+         bottom: 100px;
+         }
+     
+     .card2 img {
+         max-width: 50%; /* Largeur maximale de l'image */
+         height: auto; 
+         margin-left:20%/* Maintenir le ratio de l'image */
+     }
+     
+    
+    
+ 
+     
+     input[type="text"] {
+         width: 100%;
+         background-color: #f0f0f0;
+ 
+         padding: 10px;
+         border: 1px solid #ccc;
+         border-radius: 10px;
+         margin-bottom: 20px;
+         box-sizing: border-box; /* Pour inclure le padding dans la largeur */
+     }
+     .button {
+         background-color: white; /* Bleu */
+         padding: 10px 20px;
+         text-align: left; /* Aligner le texte à gauche */
+         text-decoration: none;
+         display: inline-block;
+         border-radius: 10px;
+         margin-right: 10px;
+         margin-bottom: 10px;
+     }
+     
+     /* Style pour les boutons lorsqu'ils sont survolés */
+     .button:hover {
+         background-color: #f0f0f0;
+     }
+     
+     .list {
+         overflow: hidden;
+         
+     }
+     
+   .search-bar {
+         margin-top: 50px; /* Espacement par rapport à la barre de navigation */
+         margin-bottom: 20px; /* Espacement par rapport au contenu suivant */
+     }
+         
+     .card {
+     background-color: white;
+     border-radius: 10px;
+     padding: 20px;
+     margin: 20px;
+     width: calc(65% - 40px);
+     margin-bottom: 20px; /* Réduire l'espacement entre les cartes */
+     position: relative;
+     left: 13%;
+     margin-top: 60px;
+ }
+ 
+ 
+ 
+ </style>
+ 
+
+
+{% endblock %}

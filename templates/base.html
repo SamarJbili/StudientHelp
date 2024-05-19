@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<title>
+{% block title %} {% endblock %}
+</title>
+
+{% block styles %} {% endblock %}
+</head>
+<body style="background-color: #f0f0f0;">
+    {% include 'navbar.html' %}
+<div style="display: flex;">
+   
+    <!-- Sidebar -->
+    <div style="flex: 0 0 200px; background-color: #f0f0f0;">
+        {% include 'sidebar.html' %}
+    </div>
+
+
+    <!-- Content -->
+    <div style="flex: 1; padding: 20px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</div>
+</body>
